@@ -2,12 +2,14 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 from ..common import JURISDICTION_CLASSIFICATION_CHOICES, SESSION_CLASSIFICATION_CHOICES
-from .base import OCDBase, OCDIDField, RelatedBase
+from .base import OCDBase, RelatedBase
 from .division import Division
+
+import uuid
 
 
 class Jurisdiction(OCDBase):
-    id = OCDIDField(ocd_type='jurisdiction')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=300)
     url = models.URLField(max_length=2000)
     classification = models.CharField(max_length=50, choices=JURISDICTION_CLASSIFICATION_CHOICES,

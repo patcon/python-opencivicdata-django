@@ -1,7 +1,8 @@
+import uuid
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
-from .base import (OCDBase, LinkBase, OCDIDField, RelatedBase, RelatedEntityBase, MimetypeLinkBase,
+from .base import (OCDBase, LinkBase, RelatedBase, RelatedEntityBase, MimetypeLinkBase,
                    IdentifierBase)
 from .people_orgs import Organization
 from .jurisdiction import LegislativeSession
@@ -9,7 +10,7 @@ from .. import common
 
 
 class Bill(OCDBase):
-    id = OCDIDField(ocd_type='bill')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     legislative_session = models.ForeignKey(LegislativeSession, related_name='bills')
     identifier = models.CharField(max_length=100)
 

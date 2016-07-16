@@ -1,9 +1,11 @@
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
-from .base import OCDBase, LinkBase, OCDIDField, RelatedBase, MimetypeLinkBase, RelatedEntityBase
+from .base import OCDBase, LinkBase, RelatedBase, MimetypeLinkBase, RelatedEntityBase
 from .jurisdiction import Jurisdiction
 from .bill import Bill
 from .vote import VoteEvent
+
+import uuid
 
 
 EVENT_STATUS_CHOICES = (
@@ -36,7 +38,7 @@ class EventLocation(RelatedBase):
 
 
 class Event(OCDBase):
-    id = OCDIDField(ocd_type='event')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=300)
     jurisdiction = models.ForeignKey(Jurisdiction, related_name='events')
     description = models.TextField()

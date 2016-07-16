@@ -1,15 +1,17 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
-from .base import OCDBase, LinkBase, OCDIDField, RelatedBase
+from .base import OCDBase, LinkBase, RelatedBase
 from .people_orgs import Organization, Person
 from .jurisdiction import LegislativeSession
 from .bill import Bill
 from .. import common
 
+import uuid
+
 
 class VoteEvent(OCDBase):
-    id = OCDIDField(ocd_type='vote')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     identifier = models.CharField(max_length=300, blank=True)
     motion_text = models.TextField()
     motion_classification = ArrayField(base_field=models.TextField(), blank=True, default=list) # enum
